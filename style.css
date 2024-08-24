@@ -147,10 +147,10 @@ footer {
 }
 
 .sidebar {
-  position: absolute;
+  position: fixed;
   top:0;
   left: 0;
-  height: 100%;
+  height: 100vh;
   width: 80px;
   background-color: #12171e;
   padding: 0.4rem 0.8rem;
@@ -247,7 +247,9 @@ footer {
 }
 
 .sidebar ul li .tooltip {
+  color:black;
   background: #fff;
+  display: none;
   position: absolute;
   left: 125px;
   top: 50%;
@@ -262,6 +264,7 @@ footer {
 
 .sidebar ul li:hover .tooltip {
   opacity: 1;
+  display:inline
 }
 
 .sidebar.active ul li .tooltip {
@@ -381,4 +384,54 @@ footer {
 
 .register p a:hover {
   text-decoration: underline;
+}
+
+h2::first-letter {
+  font-size: 7em;
+}
+
+h2 {
+  font-size: 2em;
+}
+.about-container {
+  flex-direction: column;
+  padding-left: 10px;
+  padding-top: 50px;
+}
+.about-container img{
+  float: left;
+  height: 400px;
+  width: 400px;
+}
+
+.about-container h2 {
+  float:left;
+}
+
+.about-container p {
+  float: left;
+}
+
+.message-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(255,255,255, 0.2);
+  border-radius: 10px;
+  font-size: 16px;
+  color: white;
+  padding: 20px 45px 20px 20px;
+}
+
+.message-box input::placeholder {
+  color: white;
+}
+
+.wrapper .message-box {
+  width: 100%;
+  height: 200px;
+  background: transparent;
+  margin :30px 0;
 }

@@ -143,6 +143,7 @@ footer {
   border-radius: 5px;
   width: 30px;
   height: 30px;
+  left: 0px;
 }
 
 .sidebar {
@@ -168,7 +169,7 @@ footer {
 
 .sidebar #button {
   position: absolute;
-  color: red;
+  color: white;
   top: .4rem;
   left: 50%;
   font-size: 1.2rem;
@@ -238,14 +239,15 @@ footer {
 }
 
 .sidebar .nav-item {
-  opacity: 0;
+  display: none;
 }
 
 .sidebar.active .nav-item {
-  opacity: 1;
+  display: inline-block;
 }
 
 .sidebar ul li .tooltip {
+  background: #fff;
   position: absolute;
   left: 125px;
   top: 50%;
@@ -271,7 +273,7 @@ footer {
   background: var(--background);
   color: var(--foreground);
   min-height: 100vh;
-  top:0;
+  top:75px;
   left: 80px;
   transition: all 0.5s ease;
   width: calc(100% - 80px);

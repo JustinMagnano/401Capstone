@@ -1,3 +1,4 @@
+//Sidebar
 let button = document.querySelector('#button');
 let sidebar = document.querySelector('.sidebar');
 
@@ -5,6 +6,7 @@ button.onclick = function () {
   sidebar.classList.toggle('active');
 };
 
+//Dark/Light mode.
 let darkMode = localStorage.getItem('darkMode'); 
 
 const darkModeToggle = document.querySelector('#dark-mode-toggle');
@@ -30,4 +32,12 @@ darkModeToggle.addEventListener('click', () => {
   } else {  
     disableDarkMode(); 
   }
+
+
 });
+
+setInterval(() => {
+  var now = new Date();
+  var datetime=now.toLocaleString();
+  document.getElementById("datetime").innerHTML = datetime;  
+}, 1000);

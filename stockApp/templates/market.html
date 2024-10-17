@@ -1,0 +1,91 @@
+{% extends 'main.html' %} 
+{% load static %}
+{% block content %}
+
+
+    {% if not user.is_authenticated %}
+    <nav class="navbar">
+      <ul>
+        <li><a href="{% url 'login' %}">Login into your account to buy or sell stocks</a></li>
+        <li><h4 id="datetime"></h4></li>
+      </ul>
+
+    </nav>
+    {% endif %}
+
+    <div class="main-content">
+
+      <div class="container1">
+        {%for stock in stocks%} 
+        <div class="wrappermarket">
+
+        <!-- Stockticker is the stock name. This is displayed as H1. 
+         Stockprice is the price and will display below it
+         StockMaxPrice and StockMinPrice are lists that will appear side by side 
+         -->    
+        <h1><div class ="Stockticker">{{stock.ticker}}</div></h1>
+        <div class ="Stockprice">${{stock.price}}</div>
+        <div class ="Stockwrapper">
+          <div class = "Stockmaxprice">${{stock.maxPrice}}</div>
+          <div class = "Stockminprice">${{stock.maxPrice}}</div> 
+        </div>
+        <!-- These are the buy/sell buttons. Need to be routed still. -->
+        <div class ="buysellwrapper">  
+          <button class="track-btn Buy"  id = "{{stock.ticker}}" onClick="storeButtonData(button)" >Buy</button>
+          <button class="track-btn Sell" id = "{{stock.ticker}}" onClick="storeButtonData(button)" >Sell</button>
+          </div>
+
+          
+          
+      </div>
+      {% endfor %}
+    </div>
+    </div>
+    <script>// Ensure DOM is fully loaded before running the script
+      document.addEventListener('DOMContentLoaded', () => {
+        
+        // Function to store button ID and class in localStorage
+        function storeButtonData(button) {
+          // Get the button's ID
+          const buttonId = button.id;
+      
+          // Determine if the button has "Buy" or "Sell" class
+          let action = "Unknown";  // Default value
+          if (button.classList.contains('Buy')) {
+            action = 'Buy';
+          } else if (button.classList.contains('Sell')) {
+            action = 'Sell';
+          }
+      
+          // Retrieve existing data from localStorage, or start with an empty array if none exist
+          let buttonDataArray = JSON.parse(localStorage.getItem('buttonData')) || [];
+      
+          // Add the button's ID and action to the array
+          buttonDataArray.push({ id: buttonId, action });
+      
+          // Store the updated array back in localStorage
+          localStorage.setItem('buttonData', JSON.stringify(buttonDataArray));
+      
+          // Redirect to stock.html
+          window.location.href = 'stockmarket.html';
+        }
+      
+        // Attach event listeners to all buttons with the class 'track-btn'
+        document.querySelectorAll('.track-btn').forEach(button => {
+          button.addEventListener('click', function() {
+            storeButtonData(this);
+          });
+        });
+      });</script>
+{% endblock %}
+{% block scripts %}
+    <script>
+      window.onload = function() {
+        setInterval(() => {
+            var now = new Date();
+            var datetime = now.toLocaleString();
+            document.getElementById("datetime").innerHTML = datetime;  
+        }, 1000);
+    };
+    </script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'main.html' %} 
+{% load static %}
+{% block content %}
+<!-- Test Code remove when fin-->
+<br>
+<div class="main-content">
+  <div class="stocks">
+{% if user.is_authenticated %}
+<p>Successful Login!! This is the admin panel</p>
+<li>
+  <a class="test" href="{% url 'logout' %}" style="color: white;">Click here to log out.</a>
+</li>
+<li>
+  <a class="test" href="{% url 'markethours' %}" style="color: white;">Set Market Hours.</a>
+</li>
+<li>
+  <a class="test" href="{% url 'stockcreation' %}" style="color: white;">Add Stock.</a>
+</li>
+<li>
+  <a class="test" href="{% url 'stockdeletion' %}" style="color: white;">Delete Stock.</a>
+</li>
+
+
+</div>
+</div>
+{% else %}
+
+<p>no hacking!</p>
+
+
+{% endif %}
+
+{% endblock %} 

@@ -1,0 +1,57 @@
+{% extends 'main.html' %} 
+{% load static %}
+{% block content %}
+<br>
+<!-- Test Code remove when fin-->
+<div class="main-content">
+  <div class="stocks">
+{% if user.is_authenticated %}
+<br>
+<br>
+<br>
+<p>Successful Login!! This is the user panel</p>
+<p>hello {{name}}</p>
+<p>Current Balance: ${{balance}}</p>
+  <a href="{% url 'funds'%}">Click Here to deposit or withdraw funds.</a>
+  <br>
+  <a href="{% url 'logout'%}">Click here to log out.</a>
+  <li><a href="{% url 'transactions' %}">Transaction History</a></li>
+  <h1>Portfolio</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Ticker</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in purchased_stock %}
+                <tr>
+                    <td>{{ stock.ticker }}</td>
+                    <td>{{ stock.quantity }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">No stocks purchased.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+  </div> 
+</div>
+
+
+
+{% for message in messages%}
+<p class="message-box"> {{ message }} </p>
+{% endfor %}
+
+{% else %}
+
+<p>no hacking!</p>
+
+
+{% endif %}
+
+{% endblock %} 

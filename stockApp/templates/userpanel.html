@@ -1,0 +1,60 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<br>
+<!-- Test Code remove when fin-->
+<div class="main-content">
+    <div class="container2">
+        <div class="user-wrapper">
+            {% if user.is_authenticated %}
+
+            <div class="admin-wrapper">
+                <div class="user-box">
+                    <h1>Hello {{name}}</h1>
+                    <p>Current Balance: ${{balance}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="user-wrapper">
+            <div class="user-box">
+                <h1>Portfolio</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticker</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if purchased_stock %}
+                        {% for ticker, quantity in purchased_stock.items %}
+                        <tr>
+                            <td>{{ ticker }}</td>
+                            <td>{{ quantity|floatformat:0 }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="2">You have no purchased stocks.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% for message in messages%}
+<p class="message-box"> {{ message }} </p>
+{% endfor %}
+
+{% else %}
+
+<p>no hacking!</p>
+
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'main.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="main-content">
+    <div class="stocks">
+    <h3>Edit Market Days</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <th>Day</th>
+                        <th>Open</th>
+                    </tr>
+                    {% for day in market_days %}
+                    <tr>
+                        <td>{{ day }}</td>
+                        <td>
+                            <input type="checkbox" name="day{{ day.id }}" 
+                            {% if day.status %}checked{% endif %}>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            
+                <button type="submit">Update Market Days</button>
+            </form>
+    </div>
+
+{% endblock %} 

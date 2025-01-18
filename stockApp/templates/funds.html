@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="message-box">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+<div class="main-content">
+    {% if user.is_authenticated %}
+    <div class="stocks">
+        <h1>Deposit or Withdraw</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <br>
+            <label for="depositform" title="DepoWith">Do you want to deposit or withdraw?</label>
+            {{ form.action }}
+
+            <br>
+            <br>
+            <label for="stockquantity" title="Stock List">How much would you like to deposit or withdraw?</label>
+            {{ form.balance }}
+
+            <br>
+            <br>
+            
+            <p>Available funds: $ {{user_balance}}</p>
+
+            <br>
+            <br>
+            <button type="submit" class="subbutton">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+
+{% else %}
+
+<p>no hacking!</p><!-- Test Code remove when fin-->
+
+
+{% endif %}
+
+{% endblock %}

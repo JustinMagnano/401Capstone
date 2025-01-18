@@ -1,0 +1,64 @@
+{% extends 'main.html' %} 
+{% load static %}
+{% block content %}
+
+{% if messages %}
+        {% for message in messages %}
+            <div class="message-box">
+                {{ message }}
+            </div>
+        {% endfor %}
+{% endif %}
+
+    <div class="main-content">
+      <div class="login-form">
+      <div class="wrapper">
+        <form method="POST"action="">
+          {% csrf_token %}
+          
+          <h1>Register</h1>
+          <div class="input-box">
+            {{ form1.first_name.label_tag }}
+            {{ form1.first_name }}
+            <i class='bx bx-pencil' ></i>
+          </div>
+          <div class="input-box">
+            {{ form1.last_name.label_tag }}
+            {{ form1.last_name }}
+            <i class='bx bxs-pen' ></i>
+          </div>
+          <div class="input-box">
+            {{ form1.email.label_tag }}
+            {{ form1.email }}
+            <i class='bx bxl-gmail' ></i>
+          </div>
+          <div class="input-box">
+            {{ form1.username.label_tag }}
+            {{ form1.username }}
+            <i class='bx bxs-user' ></i>
+          </div>
+          
+          <div class="input-box">
+            {{ form2.phoneNumber.label_tag }}
+            {{ form2.phoneNumber }}
+            <i class='bx bxs-user' ></i>
+          </div>
+          <div class="input-box">
+            {{ form1.password1.label_tag }}
+            {{ form1.password1 }}
+            <i class='bx bx-lock-alt' ></i>
+          </div>
+          <div class="input-box">
+            {{ form1.password2.label_tag }}
+            {{ form1.password2 }}
+            <i class='bx bx-lock-alt' ></i>
+          </div>
+          <button type="submit" class="subbutton">Register</button>
+
+        </form>
+      </div>
+      </div>
+      
+      </div>
+
+{% endblock %} 

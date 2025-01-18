@@ -1,0 +1,80 @@
+{% extends 'main.html' %} 
+{% load static %}
+{% block content %}
+<br>
+<div class="main-content">
+  
+  <div class="container2">
+    <h1>Admin Dashboard</h1>
+  {% if user.is_authenticated %}
+    <div class="admin-wrapper">
+      <div class="admin-box">
+        <h3>Transactions Today</h3>
+        {{transactions_today}}
+      </div>
+      
+      <div class="admin-box">
+        <h3>Transactions Last 30 days</h3>
+        {{transactions_last_30_days}}
+      </div>
+      <div class="admin-box">
+        <h3>Transactions YTD</h3>
+        {{transactions_ytd}}
+      </div>
+      <div class="admin-box">
+        <h3>Current Active Customers</h3>
+        {{active_user_count}}
+      </div>
+      <div class="admin-box">
+        <h3>Users Created</h3>
+        {{total_user_count}}
+      </div>
+
+      <div class="admin-box">
+        <h3>Number of Unique Stocks</h3>
+        {{ stock_quantity }}
+      </div>
+
+      <div class="admin-box">
+        <h3>Stock Information</h3>
+        <div class="table-container">
+          <table class="stock-table">
+            <tr>
+              <th>Stock Name</th>
+              <th>Stock Ticker</th>
+              <th>Remaining Volume</th>
+              <th>Market Capitalization</th>
+            </tr>
+            {% for stock in stocks %}
+            <tr>
+              <td>{{ stock.stockName }}</td>
+              <td>{{ stock.ticker }}</td>
+              <td>{{ stock.remainingVol }}</td>
+              <td>${{ stock.market_capitalization }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-box">
+        <h3>Messages</h3>
+        <p>{{ unread_message_quantity }} unread </p>
+        <p>{{ message_quantity }} total messages</p>
+        <button> <a href="{% url 'messagespanel' %}">Go to messages </a></button>
+      </div>
+    
+    
+    
+    </div>
+
+  </div>
+</div>
+{% else %}
+
+<p>no hacking!</p>
+
+
+{% endif %}
+
+{% endblock %} 

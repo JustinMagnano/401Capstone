@@ -1,0 +1,44 @@
+{% extends 'main.html' %} 
+{% load static %}
+
+{% block content %}
+
+<div class="main-content">
+    <div class="stocks">
+        <h1>Market Hours Calendar</h1>
+
+        <div>
+            <a href="?year={{ previous_year }}&month={{ previous_month }}">Previous Month</a>
+            |
+            <a href="?year={{ next_year }}&month={{ next_month }}">Next Month</a>
+        </div>
+
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ holidayForm.date }}
+                {{ holidayForm.description }}
+                <button type="submit">Add Holiday</button>
+            </form>
+
+        </div>
+
+        <div>
+            {{ html_calendar|safe }}
+        </div>
+
+    <div>
+        <form action="" method="POST">
+            <h1>Delete Holiday</h1>
+            {% csrf_token %}
+            {{ deleteholidayform.as_p }}  
+            <button type="submit" class="subbutton">Delete Holiday</button>
+
+        </form>
+    </div>
+
+
+    </div>
+</div>  
+
+{% endblock %} 

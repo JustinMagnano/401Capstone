@@ -1,0 +1,88 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+<div class="main-content">
+
+  <div class="container1">
+    {%for stock in stocks%}
+    <div class="wrappermarket">
+
+      <h1>
+        <div class="Stockticker">{{stock.ticker}}</div>
+      </h1>
+      <div class="Stockprice">${{stock.price}}</div>
+      <div class="Stockwrapper">
+        <div class="Stockmaxprice">Max:<br> ${{ stock.maxPrice|floatformat:2 }}</div>
+        </li>
+        <div class="Stockmaxprice">Min:<br> ${{ stock.minPrice|floatformat:2 }}</div>
+        </li>
+      </div>
+      <div class="stockmc">Market Capitalization: ${{ stock.market_capitalization|floatformat:2 }}</div>
+      <div class="stockmc">Volume Available: {{ stock.remainingVol }}</div>
+      {% load group_filters %}
+      {% if user.is_authenticated and user|has_group:'customer' %}
+      <div class="buysellwrapper">
+        <button class="track-btn Buy" id="{{stock.ticker}}" onClick="storeButtonData(button)">Buy</button>
+        <button class="track-btn Sell" id="{{stock.ticker}}" onClick="storeButtonData(button)">Sell</button>
+      </div>
+      {% endif %}
+
+
+
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  window.onload = function () {
+    setInterval(() => {
+      var now = new Date();
+      var datetime = now.toLocaleString();
+      document.getElementById("datetime").innerHTML = datetime;
+    }, 1000);
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // Function to store button ID and class in localStorage
+    function storeButtonData(button) {
+      // Get the button's ID
+      const buttonId = button.id;
+
+      // Determine if the button has "Buy" or "Sell" class
+      let action = "Unknown";  // Default value
+      if (button.classList.contains('Buy')) {
+        action = 'Buy';
+      } else if (button.classList.contains('Sell')) {
+        action = 'Sell';
+      }
+
+      // Retrieve existing data from localStorage, or start with an empty array if none exist
+      let buttonDataArray = JSON.parse(localStorage.getItem('buttonData')) || [];
+
+      // Add the button's ID and action to the array
+      buttonDataArray.push({ id: buttonId, action });
+
+      // Store the updated array back in localStorage
+      localStorage.setItem('buttonData', JSON.stringify(buttonDataArray));
+
+      // Redirect to stock.html
+      window.location.href = 'stockmarket.html';
+    }
+
+    // Attach event listeners to all buttons with the class 'track-btn'
+    document.querySelectorAll('.track-btn').forEach(button => {
+      button.addEventListener('click', function () {
+        storeButtonData(this);
+      });
+    });
+  });
+
+</script>
+{% endblock %}

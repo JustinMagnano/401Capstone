@@ -1,0 +1,50 @@
+{% extends 'main.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="main-content">
+
+    <div class="stocks">
+        <h3>Create Stock</h3>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <label for="stockName" title="stockName">Which company owns this stock?</label>
+            {{ stockCreationForm.stockName }}
+
+            <label for="ticker" title="ticker">Stock Ticker?</label>
+            {{ stockCreationForm.ticker }}
+            
+
+            <label for="price " title="price">Starting Price?</label>
+            {{ stockCreationForm.price }}
+            
+
+            <label for="volumeQty" title="volumeQty">Beginning Stock Volume?</label>
+            {{ stockCreationForm.volumeQty }}
+
+            <br><button type="submit" class="subbutton">Create Stock</button>
+        </form>
+
+        <form action="" method="POST">
+            <h1>Delete Stock</h1>
+            {% csrf_token %}
+            {{ stockDeletionForm.as_p }}  
+            <button type="submit" class="subbutton">Delete Stock</button>
+
+        </form>
+
+        <form action="" method="POST"></form>
+            <h1>Update Stock Price</h1>
+            {% csrf_token %}
+            {{ stockPriceAdjustmentForm.as_p }} 
+            <button type="submit" class="">Update Stock Price</button>
+
+        </form>
+    </div>
+
+
+
+    
+</div>
+
+{% endblock %} 

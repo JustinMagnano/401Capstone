@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="main-content">
+    <div class="stocks">
+    <h1>Transaction History</h1>
+    
+    <div class="transaction-container">
+        <table class="transaction">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Stock</th>
+                    <th>Amount</th>
+                    <th>Total Cost</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.transactionType }}</td>
+                    <td>{{ transaction.stock }}</td>
+                    {% if transaction.transactionType == 'Withdraw' or transaction.transactionType == 'Deposit' %}
+                        <td></td>
+                    {% else %}
+                        <td> {{ transaction.quantity|floatformat:0 }}</td>
+                    {% endif %}
+                    <td>${{ transaction.total_cost|floatformat:2 }}</td>
+                    <td>{{ transaction.datePurchased|date:"Y-m-d H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No transactions found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+
+</div>
+{% endblock %}

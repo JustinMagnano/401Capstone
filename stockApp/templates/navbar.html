@@ -1,0 +1,141 @@
+{% load static %}
+<div class="Logo">JAR Investments LLC</div>
+<img href="myproject\stockApp\static\stockApp\images\JarLogo.png">
+<div class="sidebar">
+  <div class="top">
+    <div class="logo">
+      <i class='bx bxs-castle' ></i>
+    </div>
+    <i class="bx bx-menu" id="button"></i>
+  </div>
+  <ul>
+    <li>
+      <a href="{% url 'login' %}">
+        <i class="bx bx-log-in"></i>
+        <span class="nav-item">Login/Register</span>
+      </a>
+      <span class="tooltip">Login/Register</span>
+    </li>
+    <li>
+      <a href="{% url 'home' %}">
+        <i class="bx bx-info-circle"></i>
+        <span class="nav-item">About</span>
+      </a>
+      <span class="tooltip">About</span>
+    </li>
+    <li>
+      <a href="{% url 'market' %}">
+        <i class='bx bx-dollar-circle' ></i>
+        <span class="nav-item">Market Activity</span>
+      </a>
+      <span class="tooltip">Market Activity</span>
+    </li>
+
+    {% load group_filters %}
+    {% if user.is_authenticated and user|has_group:'customer' %}
+    <li>
+      <a href="{% url 'contact' %}">
+        <i class='bx bx-envelope' ></i>
+        <span class="nav-item">Contact Us</span>
+      </a>
+      <span class="tooltip">Contact Us</span>
+    </li>
+    {% endif %}
+
+    {% if user.is_authenticated and user|has_group:'admin' %}
+    <li>
+      <a href="{% url 'messagespanel' %}">
+        <i class='bx bx-envelope' ></i>
+        <span class="nav-item">View Messages</span>
+      </a>
+      <span class="tooltip">View Messages</span>
+    </li>
+
+    {% endif %}
+
+
+    {% if user.is_authenticated %}
+    <li>     
+      <a href="{% url 'logout'%}">
+      <i class='bx bx-log-out'></i>
+      <span class="nav-item">Logout</span>
+    </a>
+    <span class="tooltip">Logout</span>
+    </li>
+    {% endif %}
+    <li><button id="dark-mode-toggle" class="dark-mode-toggle">
+<svg width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 496"><path fill="currentColor" d="M8,256C8,393,119,504,256,504S504,393,504,256,393,8,256,8,8,119,8,256ZM256,440V72a184,184,0,0,1,0,368Z" transform="translate(-8 -8)"/></svg>
+</button></li>
+  </ul>
+</div>
+
+{% if not user.is_authenticated %}
+    <nav class="navbar">
+      <ul>
+        <li><a href="{% url 'login' %}">Welcome! Please Login.</a></li>
+        <li><h4 id="datetime"></h4></li>
+      </ul>
+
+    </nav>
+{% endif %}
+
+{% load group_filters %}
+{% if user.is_authenticated and user|has_group:'customer' %}
+
+<nav class="navbar">
+  <ul>
+    <li><a href="{% url 'userpanel' %}">Portfolio</a></li>
+    <li><a href="{% url 'stockmarket' %}">Purchase/Sell Stock</a></li>
+    <li><a href="{% url 'funds' %}">Deposit/Withdraw Funds</a></li>
+    <li><a href="{% url 'transactions' %}">Transaction History</a></li>
+    <li><h4 id="datetime"></h4></li>
+  </ul>
+
+</nav>
+{% endif %}
+
+{% if user.is_authenticated and user|has_group:'admin' %}
+
+<nav class="navbar">
+  <ul>
+    <li><a href="{% url 'adminpanel' %}">Admin Panel</a></li>
+    <li><a href="{% url 'markethours' %}">Modify Market Hours</a></li>
+    <li><a href="{% url 'marketdays' %}">Modify Market Days</a></li>
+    <li><a href="{% url 'marketholidays' %}">Modify Market Holidays</a></li>
+    <li><a href="{% url 'stockmodification' %}">Modify Stock</a></li>
+    <li><h4 id="datetime"></h4></li>
+  </ul>
+
+</nav>
+{% endif %}
+
+{% if messages %}
+  <div class="Djmessage-container">
+    {% for message in messages %}
+      <div class="Djmessage-box {{ message.tags }}">
+        <p>{{ message }}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const messageBoxes = document.querySelectorAll('.Djmessage-box');
+    messageBoxes.forEach((messageBox) => {
+      setTimeout(() => {
+        messageBox.classList.add('fade-out');
+        
+        messageBox.addEventListener('transitionend', () => {
+          messageBox.remove();
+        });
+      }, 10000); // 10sec //
+    });
+  });
+</script>
+{% endblock %}
+  
+

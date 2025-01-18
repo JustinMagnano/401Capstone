@@ -1,0 +1,132 @@
+{% extends 'main.html' %} 
+{% load static %}
+{% block content %}
+
+<div class="main-content">
+    <div class="stocks">
+        <h1>Purchase or Sell</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            <label for="action" title="Action">Do you want to purchase or sell stock?</label>
+            {{ form.action }}
+            <br><br>
+
+
+            <label for="stock">What stock do you want to work with today?</label>
+            <select id="id_stock" name="stock">
+                {% for stock in stocks %}
+                    <option value="{{ stock.id }}" data-price="{{ stock.price }}">{{ stock.ticker }}</option>
+                {% endfor %}
+            </select> 
+            <br><br>
+
+            <label for="quantity" title="Quantity">Quantity?</label> 
+            {{ form.quantity }}
+            <br><br>
+            <p>Available funds: $ {{user_balance}}</p>
+            <div>
+                <strong>Total Cost:</strong> <span id="total-cost">$0.00</span>
+            </div>
+
+            <br>
+            <br>
+            <button type="submit" class="subbutton" onclick="return confirm('Do you want to make this purchase?');">Submit</button>
+        </form>   
+    </div>
+</div>
+
+
+
+<div class="main-content">
+<div class="stocks">
+
+    <h1>Purchase or Sell</h1>
+    <form>  
+
+    <label for="actionDropdown">Do you want to purchase or sell stock?</label>
+    <select id="actionDropdown">
+        <option value="">Select an action</option>
+        <option value="Buy">Buy</option>
+        <option value="Sell">Sell</option>
+    </select>
+    <br>
+    <br>
+    <br>
+
+    <!-- Dropdown list for stock selection -->
+    <label for="idDropdown">What stock do you want to work with today?</label>
+    <select id="idDropdown">
+        <option value="">Select a stock</option>
+    </select>
+    <br>
+    <br>
+    <label title="Stock List">Quantity?</label> <input type="text" id="stockquantity" name="quantity" placeholder="Quantity" pattern="^[0-9]*$"> 
+    <br>
+    <br>
+    <br><button type="submit" class="subbutton">Submit</button>
+    </form>   
+{% endblock %} 
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const quantityInput = document.querySelector('#id_quantity');
+        const stockSelect = document.querySelector('#id_stock');
+        const totalCostDisplay = document.getElementById('total-cost');
+
+        function calculateTotal() {
+            const quantity = parseInt(quantityInput.value) || 0;
+            const stockPrice = parseFloat(stockSelect.options[stockSelect.selectedIndex].dataset.price) || 0;
+            const totalCost = quantity * stockPrice;
+            totalCostDisplay.textContent = `$${totalCost.toFixed(2)}`;
+        }
+
+        quantityInput.addEventListener('input', calculateTotal);
+        stockSelect.addEventListener('change', calculateTotal);
+    });
+
+
+
+    // Function to populate the dropdowns with stored button data and default values
+    document.addEventListener('DOMContentLoaded', () => {
+        // Retrieve the stored data from localStorage
+        let buttonDataArray = JSON.parse(localStorage.getItem('buttonData')) || [];
+
+        // Get the dropdown elements
+        const actionDropdown = document.getElementById('actionDropdown');
+        const idDropdown = document.getElementById('idDropdown');
+
+        // Default values for the ID dropdown
+        const defaultStocks = ["AAPL", "NVDA", "GOOG", "INTC", "AMD", "BA", "SBUX", "NKE", "DIS"];
+
+        // Create a Set to avoid duplicate entries
+        const uniqueStocks = new Set(defaultStocks);
+
+        // Populate the ID dropdown with stored button IDs and default values
+        buttonDataArray.forEach(item => {
+            uniqueStocks.add(item.id); // Add previous IDs to the Set
+        });
+
+        // Append unique stock options to the dropdown
+        uniqueStocks.forEach(stock => {
+            const idOption = document.createElement('option');
+            idOption.text = stock;
+            idOption.value = stock;
+            idDropdown.appendChild(idOption);
+        });
+
+        // Automatically select the last action in the action dropdown if available
+        if (buttonDataArray.length > 0) {
+            const lastEntry = buttonDataArray[buttonDataArray.length - 1];
+            actionDropdown.value = lastEntry.action; // Set last action
+        }
+
+        // Automatically select the last button ID in the ID dropdown if available
+        if (buttonDataArray.length > 0) {
+            const lastId = buttonDataArray[buttonDataArray.length - 1].id;
+            idDropdown.value = lastId; // Set last button ID
+        }
+    });
+</script>
+{% endblock %}

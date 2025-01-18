@@ -1,0 +1,23 @@
+{% extends 'main.html' %} 
+{% load static %}
+{% block content %}
+
+<div class="main-content">
+    <div class="stocks">
+    <h1>Set Market Hours</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="">Opening</label>{{ hourform.openTime }}
+        <label for="">Closing</label>{{ hourform.closeTime }}
+        <button type="submit">Update Market Hours</button>
+    </form>
+
+    <h3>Current Market Hours</h3>
+    <p>Market Open Time: {{ market_hours.openTime }}</p>
+    <p>Market Close Time: {{ market_hours.closeTime }}</p>
+
+    </div>
+</div>
+
+{% endblock %} 
